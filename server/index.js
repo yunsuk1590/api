@@ -5,7 +5,13 @@ import { fileURLToPath } from 'url';
 import { validateEnv } from '../config.js';
 import { recognizeFridgeImage, generateRecipes } from './openrouter.js';
 
-validateEnv();
+let envError = null;
+try {
+  validateEnv();
+} catch (err) {
+  envError = err;
+  console.error(err.message);
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -29,6 +35,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.post('/api/inventory/recognize', (req, res) => {
+  if (envError) {
+    return res.status(500).json({ error: `서버 설정 오류: ${envError.message}` });
+  }
+
   upload.single('image')(req, res, async (uploadErr) => {
     if (uploadErr) {
       return res.status(400).json({ error: uploadErr.message });
@@ -49,6 +59,10 @@ app.post('/api/inventory/recognize', (req, res) => {
 });
 
 app.post('/api/recipes/generate', async (req, res) => {
+  if (envError) {
+    return res.status(500).json({ error: `서버 설정 오류: ${envError.message}` });
+  }
+
   const { items, preferences } = req.body || {};
 
   if (!Array.isArray(items) || items.length === 0) {
