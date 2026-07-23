@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>냉장고 재료 인식</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>냉장고 재료 인식</h1>
+    <p class="subtitle">냉장고 내부 사진을 올리면 식재료를 인식해줘요.</p>
+
+    <section class="upload-box">
+      <input type="file" id="file-input" accept="image/jpeg,image/png" />
+      <img id="preview" alt="업로드한 이미지 미리보기" hidden />
+      <button id="recognize-btn" disabled>인식하기</button>
+    </section>
+
+    <section id="status" class="status" hidden></section>
+
+    <section id="result" class="result" hidden>
+      <h2>인식된 재료</h2>
+      <ul id="item-list"></ul>
+      <form id="add-item-form">
+        <input type="text" id="new-item-name" placeholder="재료 이름 추가" />
+        <button type="submit">추가</button>
+      </form>
+      <button id="generate-recipes-btn">레시피 추천받기</button>
+    </section>
+
+    <section id="recipe-status" class="status" hidden></section>
+
+    <section id="recipe-result" class="result" hidden>
+      <h2>추천 레시피</h2>
+      <div id="recipe-list"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
