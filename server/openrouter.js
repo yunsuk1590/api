@@ -72,7 +72,7 @@ async function callWithRetry(messages) {
       return await callOnce(messages);
     } catch (err) {
       lastError = err;
-      const isRetryable = RETRYABLE_STATUS.has(err.status);
+      const isRetryable = err.status === undefined || RETRYABLE_STATUS.has(err.status);
       if (!isRetryable || attempt === MAX_RETRIES) break;
       await sleep(2 ** attempt * 1000);
     }
