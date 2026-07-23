@@ -102,3 +102,11 @@ The project is structured as a **full-stack monorepo** with the following main l
 - **Database**: Use migrations for all schema changes; avoid manual SQL
 - **API changes**: Update both backend and frontend when API contract changes
 - **Testing**: Test API endpoints with realistic sensor data payloads
+
+
+
+OpenRouter API를 이용해서 실제 AI 모델이 이미지를 인식하고
+레시피를 생성하게 해줘.
+매번 실행할때마다 API가 정확하게 작동하는지, 
+AI 모델이 문제없이 실행되는지 파악하고
+문제가 있다면 어떤 문제가 있는지 보고해.

@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node server/index.js"
+    "dev": "node server/index.js",
+    "postinstall": "xattr -w \"com.apple.fileprovider.ignore#P\" 1 node_modules 2>/dev/null || true"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "multer": "^2.0.0"

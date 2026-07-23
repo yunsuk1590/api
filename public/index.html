@@ -10,6 +10,41 @@
     <h1>냉장고 재료 인식</h1>
     <p class="subtitle">냉장고 내부 사진을 올리면 식재료를 인식해줘요.</p>
 
+    <section id="auth-box" class="upload-box">
+      <div id="auth-logged-out">
+        <form id="auth-form">
+          <input type="email" id="auth-email" placeholder="이메일" required />
+          <input type="password" id="auth-password" placeholder="비밀번호" required minlength="6" />
+          <div class="auth-buttons">
+            <button type="submit" id="login-btn">로그인</button>
+            <button type="button" id="signup-btn">회원가입</button>
+          </div>
+        </form>
+        <p id="auth-status" class="status" hidden></p>
+      </div>
+      <div id="auth-logged-in" hidden>
+        <p><strong id="auth-email-display"></strong>님으로 로그인됨</p>
+        <button id="logout-btn">로그아웃</button>
+      </div>
+    </section>
+
+    <section id="profile-box" class="result" hidden>
+      <h2>내 프로필</h2>
+      <form id="profile-form">
+        <label>알레르기 (쉼표로 구분)
+          <input type="text" id="profile-allergies" placeholder="예: 땅콩, 새우" />
+        </label>
+        <label>비선호 재료 (쉼표로 구분)
+          <input type="text" id="profile-dislikes" placeholder="예: 오이" />
+        </label>
+        <label>식단 유형
+          <input type="text" id="profile-diet-type" placeholder="예: 채식" />
+        </label>
+        <button type="submit">프로필 저장</button>
+      </form>
+      <p id="profile-status" class="status" hidden></p>
+    </section>
+
     <section class="upload-box">
       <input type="file" id="file-input" accept="image/jpeg,image/png" />
       <img id="preview" alt="업로드한 이미지 미리보기" hidden />
@@ -33,6 +68,11 @@
     <section id="recipe-result" class="result" hidden>
       <h2>추천 레시피</h2>
       <div id="recipe-list"></div>
+    </section>
+
+    <section id="saved-recipes-box" class="result" hidden>
+      <h2>내 레시피</h2>
+      <div id="saved-recipe-list"></div>
     </section>
   </main>
 

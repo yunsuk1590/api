@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const REQUIRED_ENV_VARS = ['OPENROUTER_API_KEY'];
+const REQUIRED_ENV_VARS = ['OPENROUTER_API_KEY', 'SUPABASE_URL', 'SUPABASE_ANON_KEY'];
 
 function validateEnv() {
   const missing = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);
@@ -11,6 +11,8 @@ function validateEnv() {
 
 export const config = {
   openRouterApiKey: process.env.OPENROUTER_API_KEY,
+  supabaseUrl: process.env.SUPABASE_URL,
+  supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
 };
 
 export { validateEnv };
