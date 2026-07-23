@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { validateEnv } from '../config.js';
 import { recognizeFridgeImage, generateRecipes } from './openrouter.js';
-import { supabaseAnon, supabaseForToken, extractBearerToken } from './supabase.js';
+import { getSupabaseAnon, supabaseForToken, extractBearerToken } from './supabase.js';
 
 let envError = null;
 try {
@@ -34,6 +34,13 @@ const upload = multer({
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use('/api', (req, res, next) => {
+  if (envError) {
+    return res.status(500).json({ error: `서버 설정 오류: ${envError.message}` });
+  }
+  next();
+});
 
 async function requireAuth(req, res, next) {
   const token = extractBearerToken(req);
@@ -88,7 +95,7 @@ app.post('/api/auth/signup', async (req, res) => {
     return res.status(400).json({ error: 'email과 password가 필요합니다.' });
   }
 
-  const { data, error } = await supabaseAnon.auth.signUp({ email, password });
+  const { data, error } = await getSupabaseAnon().auth.signUp({ email, password });
   if (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -102,7 +109,7 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(400).json({ error: 'email과 password가 필요합니다.' });
   }
 
-  const { data, error } = await supabaseAnon.auth.signInWithPassword({ email, password });
+  const { data, error } = await getSupabaseAnon().auth.signInWithPassword({ email, password });
   if (error) {
     return res.status(401).json({ error: error.message });
   }
@@ -210,10 +217,6 @@ app.delete('/api/recipes/saved/:id', requireAuth, async (req, res) => {
 });
 
 app.post('/api/inventory/recognize', (req, res) => {
-  if (envError) {
-    return res.status(500).json({ error: `서버 설정 오류: ${envError.message}` });
-  }
-
   upload.single('image')(req, res, async (uploadErr) => {
     if (uploadErr) {
       return res.status(400).json({ error: uploadErr.message });
@@ -234,10 +237,6 @@ app.post('/api/inventory/recognize', (req, res) => {
 });
 
 app.post('/api/recipes/generate', async (req, res) => {
-  if (envError) {
-    return res.status(500).json({ error: `서버 설정 오류: ${envError.message}` });
-  }
-
   const { items, preferences } = req.body || {};
 
   if (!Array.isArray(items) || items.length === 0) {
